@@ -78,8 +78,12 @@ export default async function Login() {
         <h2 className="text-3xl font-bold">Event name</h2>
       </div>
 
-      <div className="md:items-center">
+      <div className="flex flex-col gap-4 md:items-center md:justify-center">
         <h2 className="text-xl text-left md:text-center">Sign up to my newsletter!</h2>
+        <form className="flex flex-col gap-3 md:items-center">
+          <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline focus:shadow-outline" name="query" type="email" placeholder="email@address.com" />
+          <button className=" hover:bg-blue-500 hover:text-white border-2 border-blue-500 border-solid text-blue-500 font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" type="submit">Submit</button>
+        </form>
       </div>
 
       <div className="flex flex-col gap-2 justify-start md:items-center">
