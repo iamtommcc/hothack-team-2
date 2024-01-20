@@ -2,12 +2,13 @@ import Link from "next/link";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import './attendee-page.css'
 import Image from 'next/image'
 import artistPhoto from './images/pexels-photo-167636.jpeg'
 import instagram from './images/instagram.png'
 import youtube from './images/youtube.png'
 import facebook from './images/facebook.png'
+import spotify from './images/spotify.png'
+import soundcloud from './images/soundcloud.png'
 
 
 export default async function Login() {
@@ -87,10 +88,16 @@ export default async function Login() {
         <h2 className="text-2xl font-bold">Socials</h2>
         <div className="flex flex-row flex-wrap gap-2 justify-start items-center">
           <a href="#">
-          <Image src={instagram} style={{width: 40,height:40}}  alt="instagram"  />  
+            <Image src={spotify} style={{width: 40,height:40}}  alt="spotify"  />  
           </a>
           <a href="#">
-          <Image src={youtube} style={{width: 50,height:50}}  alt="youtube"  />
+            <Image src={soundcloud} style={{width: 50,height:50}}  alt="soundcloud"  />  
+          </a>
+          <a href="#">
+            <Image src={instagram} style={{width: 40,height:40}}  alt="instagram"  />  
+          </a>
+          <a href="#">
+            <Image src={youtube} style={{width: 50,height:50}}  alt="youtube"  />
           </a>
           <a href="#">
             <Image src={facebook} style={{width: 40,height:40}} alt="facebook"  />
