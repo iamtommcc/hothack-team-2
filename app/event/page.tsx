@@ -30,19 +30,6 @@ async function getData() {
   return { image: dataUrl };
 }
 
-export async function Page() {
-  const data = await getData();
-  const qrCodeImageUrl = data.image;
-
-  return (
-    <main>
-      {/* Display the QR code image */}
-      <p>The QR CODE</p>
-      <img src={qrCodeImageUrl} alt="QR Code" />
-    </main>
-  );
-}
-
 export default async function Home({
   searchParams,
 }: {

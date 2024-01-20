@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { headers, cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+// import './attendee-page.css'
 import Image from 'next/image'
 import artistPhoto from './images/pexels-photo-167636.jpeg'
 import instagram from './images/instagram.png'
@@ -10,7 +10,6 @@ import facebook from './images/facebook.png'
 import spotify from './images/spotify.png'
 import soundcloud from './images/soundcloud.png'
 import { json } from "stream/consumers";
-
 
 export default async function Login() {
 
