@@ -58,12 +58,12 @@ export default async function Login() {
   return (
 
     <>
-      <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center p-12 gap-8 blue-50">
+      <div className="flex-1 flex flex-col w-full px-8 justify-center p-12 gap-8 ">
     
       {/* <h1>{data.username}</h1> */}
-      <div>
+      <div className="flex justify-center">
       <Image
-      className="w-full rounded-lg"
+      className="w-full rounded-lg md:max-w-lg"
         src={artistPhoto}
         width={200}
         height={200}
@@ -71,24 +71,22 @@ export default async function Login() {
       />
       </div>
 
-      <div className="flex flex-col gap-2 justify-start">
+
+
+      <div className="flex flex-col gap-2 justify-start md:items-center">
         <h2 className="text-4xl font-bold" >{eventData.artistName}</h2>
-        <h2 className="text-3xl font-bold">event name</h2>
+        <h2 className="text-3xl font-bold">Event name</h2>
       </div>
-      <div className="button-wrapper flex flex-col gap-3 text-center">
-        { userData.buttonLinks.map(button => 
-          <a href="#" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" target="_blank">{button.text}
-            <button >
-            </button>
-          </a>
-        )}
+
+      <div className="md:items-center">
+        <h2 className="text-xl text-left md:text-center">Sign up to my newsletter!</h2>
       </div>
-      <>
-      <div className="flex flex-col gap-2 justify-start">
+
+      <div className="flex flex-col gap-2 justify-start md:items-center">
         <h2 className="text-2xl font-bold">Socials</h2>
         <div className="flex flex-row flex-wrap gap-2 justify-start items-center">
           <a href="#">
-            <Image src={spotify} style={{width: 40,height:40}}  alt="spotify"  />  
+            <Image src={spotify} style={{width: 40,height:40}} alt="spotify"  />  
           </a>
           <a href="#">
             <Image src={soundcloud} style={{width: 50,height:50}}  alt="soundcloud"  />  
@@ -104,7 +102,14 @@ export default async function Login() {
           </a>
         </div>
       </div>
-      </>
+
+      <div className="button-wrapper flex flex-col gap-3 text-center md:items-center">
+        { userData.buttonLinks.map(button => 
+          <a href="#" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" target="_blank">{button.text}
+          </a>
+        )}
+      </div>
+  
 
       </div>
     </>
