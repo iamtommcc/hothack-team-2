@@ -1,5 +1,6 @@
 import Link from "next/link";
-
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 const apiUrl = `https://api.qr-code-generator.com/v1/create?access-token=${process.env.QR_CODE_API_KEY}`;
 
 async function getData() {
@@ -33,10 +34,41 @@ async function getData() {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { message: string };
+  searchParams: { id: string };
 }) {
   const data = await getData();
   const qrCodeImageUrl = data.image;
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  // const events = await supabase.from("Events").select();
+
+  const events = {
+    error: null,
+        data: [{
+        id: 1,
+        name: 'An Event Name',
+        event_date: '2024-01-31T19:00:00',
+        location: 'The Valley',
+        entertainer_id: 1,
+        created_at: '2024-01-20T08:11:32+00:00'
+      }]
+  }
+
+  const event = events.data?.filter((event, i) => event.id = Number(searchParams.id));
+  console.log('event', event)
+
+  const formatDate = (date: Date) => {
+    let eventDate;
+    const year = date?.toString().slice(0,4);
+    const month = date?.toString().slice(5,7);
+    const day = date?.toString().slice(8,10);
+    const time = date?.toString().slice(11,16);
+    eventDate = <div>{time}<br/>
+      {day}/{month}/{year}
+    </div>
+    return eventDate;
+  }
+
   return (
     <>
       <Link
@@ -59,19 +91,20 @@ export default async function Home({
         </svg>
         Back Home
       </Link>
-      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none grid-cols-2">
+      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
         <div className="">
           <div className="pb-8 text-center">
             <h2 className="font-semibold pb-4 text-2xl">Event Details</h2>
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
-                <ul>
-                  <li className="font-semibold">Event Name</li>
-                  <li className="font-semibold">Venue Name</li>
-                  <li className="font-semibold">Date</li>
-                  <li className="font-semibold">Location</li>
-                </ul>
-
+                  {event?.map((event, id) =>
+                    <ul key={id}>
+                      <li className="font-semibold">{event.name}</li>
+                      <li className="font-semibold">Venue Name</li>
+                      <li className="font-semibold">{formatDate(new Date(event.event_date))}</li>
+                      <li className="font-semibold">{event.location}</li>
+                    </ul>
+                  )}
                 <button className="text-left mt-4 p-2 border rounded-md bg-red-500 text-xs">
                   <Link
                     href="/create"

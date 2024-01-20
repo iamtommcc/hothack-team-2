@@ -26,12 +26,12 @@ export default async function Home({
         checkDateFutureTrue(event, new Date(events.data?.[i].event_date));
     });
 
-    const formatDate = (date: any) => {
+    const formatDate = (date: Date) => {
         let eventDate;
-        const year = date.slice(0,4);
-        const month = date.slice(5,7);
-        const day = date.slice(8,10);
-        const time = date.slice(11,16);
+        const year = date?.toString().slice(0,4);
+        const month = date?.toString().slice(5,7);
+        const day = date?.toString().slice(8,10);
+        const time = date?.toString().slice(11,16);
         eventDate = <div>{time}<br/>
             {day}/{month}/{year}
                 </div>
@@ -48,10 +48,12 @@ export default async function Home({
                 <h2 className="font-semibold p-2">Upcoming Events</h2>
                 <div className="grid grid-cols-5 gap-3">
                     {futureEvents.map((event, id) =>
-                        <button key={id} className="border rounded-md p-4 font-semibold">
-                            {event.name}<br/>
-                            {event.location}<br/>
-                            {formatDate(event.event_date)}
+                        <button key={id} type="button" className="border rounded-md p-4 font-semibold">
+                            <Link href={`/event?id=1`}>
+                                {event.name}<br/>
+                                {event.location}<br/>
+                                {formatDate(event.event_date)}
+                            </Link>
                         </button>
                     )}
                 </div>
@@ -61,9 +63,11 @@ export default async function Home({
                 <div className="grid grid-cols-5 gap-3">
                     {pastEvents.map((event, id) =>
                         <button key={id} className="border rounded-md p-4 font-semibold">
-                            {event.name}<br/>
-                            {event.location}<br/>
-                            {formatDate(event.event_date)}
+                            <Link href={`/event?${id}`}>
+                                {event.name}<br/>
+                                {event.location}<br/>
+                                {formatDate(event.event_date)}
+                            </Link>
                         </button>
                     )}
                 </div>
