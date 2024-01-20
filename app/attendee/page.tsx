@@ -1,11 +1,12 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+// import './attendee-page.css'
 import Image from 'next/image'
 import artistPhoto from './images/pexels-photo-167636.jpeg'
 import instagram from './images/instagram.png'
 import youtube from './images/youtube.png'
 import facebook from './images/facebook.png'
-
 
 export default async function Login() {
 
