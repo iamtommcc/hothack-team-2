@@ -38,14 +38,14 @@ function PasswordValidationInput({
         onBlur={(value) => handleBlur(value)}
       />
       <div
-        className="absolute right-2 top-[15px]"
+        className="absolute right-2 top-[1px]"
         onClick={tooglePasswordVisibility}
       >
         {shouldShowPassword ? <Eye /> : <EyeSlash />}
       </div>
 
       {error && touched && (
-        <div className="bg-error-base p-2 text-white-base border-[1px] border-grey-100 rounded-lg mb-4 text-[14px]">
+        <div className="p-2 text-black border-[1px] rounded-lg mb-4 text-[14px]">
           {error}
         </div>
       )}

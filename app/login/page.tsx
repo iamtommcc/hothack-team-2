@@ -6,8 +6,31 @@ import {
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import Button from "@/components/Button";
+import PasswordValidationInput from "@/components/PasswordValidationInput";
+import ValidationInput from "@/components/ValidationInput";
+import { loginValidationSchema } from "@/utils/schema/validation-schemas";
+import { useFormik } from "formik";
+import Link from "next/link";
 
 export default function LoginPage() {
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: () => {},
+    validationSchema: loginValidationSchema,
+  });
+
   const router = useRouter();
 
   const [user, setUser] = useState<User | null>();
@@ -28,21 +51,7 @@ export default function LoginPage() {
     getUser();
   }, []);
 
-  const handleSignUp = async () => {
-    const res = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${location.origin}/auth/callback`,
-      },
-    });
-    setUser(res.data.user);
-    router.refresh();
-    setEmail("");
-    setPassword("");
-  };
-
-  const handleSignIn = async () => {
+  const handleLogIn = async () => {
     const res = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -83,5 +92,49 @@ export default function LoginPage() {
     );
   }
 
-  return <div>TODO</div>;
+  return (
+    <div className="w-full h-[100vh] flex items-center justify-center bg-white">
+      <div className="bg-white p-[3.5rem] rounded-lg mx-4 max-width-[600px]">
+        <div className="flex justify-center">{/* TODO add a logo*/}</div>
+
+        <h1 className="text-black text-[35px] font-bold mb-4">Log In</h1>
+
+        <p className="text-[16px] text-black">Email Address</p>
+        <ValidationInput
+          error={errors.email}
+          touched={touched.email}
+          value={values.email}
+          onChange={(e) => setFieldValue("email", e.target.value)}
+          placeholder="Enter your email address"
+          className="w-full bg-gray"
+        />
+        <p className="text-[16px] text-black">Password</p>
+        <PasswordValidationInput
+          error={errors.password}
+          touched={touched.password}
+          value={values.password}
+          handleChange={handleChange("password")}
+          placeholder="Enter your password"
+          handleBlur={handleBlur("password")}
+          className="w-full bg-gray"
+        />
+
+        <Button
+          text="Log In"
+          onClick={() => handleLogIn}
+          className="text-white bg-black border rounded-full px-2 py-2 text-[16px] mt-3 mb-2 w-full"
+        />
+        <div className="flex flex-row min-w-[500px]">
+          <p className="text-[12px] text-black mr-[2px]">Don't have an account?</p>
+
+          <Link
+            href="/sign-up"
+            className="text-[12px] text-black text-underline text-decoration-line"
+          >
+            Create one here.
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
 }
