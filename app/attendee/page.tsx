@@ -10,15 +10,10 @@ import youtube from './images/youtube.png'
 import facebook from './images/facebook.png'
 
 
-export default async function Login({
-  searchParams,
-}: {
-  searchParams: { message: string };
-}) {
+export default async function Login() {
  
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  console.log(await supabase.from("Users").select())
   
   const { data, error } = await supabase
   .from('Users')
@@ -91,8 +86,12 @@ export default async function Login({
       <div className="flex flex-col gap-2 justify-start">
         <h2 className="text-2xl font-bold">Socials</h2>
         <div className="flex flex-row flex-wrap gap-2 justify-start items-center">
+          <a href="#">
           <Image src={instagram} style={{width: 40,height:40}}  alt="instagram"  />  
+          </a>
+          <a href="#">
           <Image src={youtube} style={{width: 50,height:50}}  alt="youtube"  />
+          </a>
           <a href="#">
             <Image src={facebook} style={{width: 40,height:40}} alt="facebook"  />
           </a>
