@@ -23,7 +23,7 @@ const event = await supabase
 .from('Events')
 .select()
 
-const userId = event.data.find(event => event.id === urlId).entertainer_id
+const userId = event.data?.find(event => event.id === urlId).entertainer_id
 
   const [eventLinks, socials] = await Promise.all([
     supabase
@@ -38,11 +38,13 @@ const userId = event.data.find(event => event.id === urlId).entertainer_id
 
 
 
-const eventLinksData = eventLinks.data.filter(event => event.event_id === urlId)
-const eventData = event.data.filter(event => event.id === urlId)
+const eventLinksData = eventLinks.data?.filter(event => event.event_id === urlId)
+const eventData = event.data?.filter(event => event.id === urlId)
 
-const socialLinks = socials.data.filter(socials => socials.user_id === urlId)
-const userName = socials.data.find(social => social.Users.id === urlId).Users.username;
+const socialLinks = socials.data?.filter(socials => socials.user_id === urlId)
+const userName = socials.data?.find(social => social.Users.id === urlId).Users.username;
+
+console.log(socialLinks) 
 
 return (
 
@@ -61,8 +63,12 @@ return (
 
       <div className="flex flex-col gap-2 justify-start md:items-center">
         <h2 className="text-4xl font-bold">{userName}</h2>
-        <h2 className="text-3xl font-bold">{eventData[0].name}</h2>
-        <h2 className="text-2xl font-bold">{eventData[0].location}</h2>
+        {eventData && eventData.length > 0 && (
+        <>
+          <h2 className="text-3xl font-bold">{eventData[0].name}</h2>
+          <h2 className="text-2xl font-bold">{eventData[0].location}</h2>
+        </>
+      )}
       </div>
 
       <div className="flex flex-col gap-4 md:items-center md:justify-center">
@@ -76,44 +82,48 @@ return (
       <div className="flex flex-col gap-2 justify-start md:items-center">
   <h2 className="text-2xl font-bold">Socials</h2>
   <div className="flex flex-row flex-wrap gap-2 justify-start items-center">
-    {socialLinks[0]?.spotify_url && (
-      <a href={socialLinks[0]?.spotify_url}>
-        <Image src={spotify} style={{ width: 40, height: 40 }} alt="spotify" />
-      </a>
-    )}
-    {socialLinks[0]?.soundcloud_url && (
-      <a href={socialLinks[0]?.soundcloud_url}>
-        <Image src={soundcloud} style={{ width: 50, height: 50 }} alt="soundcloud" />
-      </a>
-    )}
-    {socialLinks[0]?.instagram_url && (
-      <a href={socialLinks[0]?.instagram_url}>
-        <Image src={instagram} style={{ width: 40, height: 40 }} alt="instagram" />
-      </a>
-    )}
-    {socialLinks[0]?.youtube_url && (
-      <a href={socialLinks[0]?.youtube_url}>
-        <Image src={youtube} style={{ width: 50, height: 50 }} alt="youtube" />
-      </a>
-    )}
-    {socialLinks[0]?.facebook_url && (
-      <a href={socialLinks[0]?.facebook_url}>
-        <Image src={facebook} style={{ width: 40, height: 40 }} alt="facebook" />
-      </a>
-    )}
+  {socialLinks && socialLinks.length > 0 && (
+    <>
+      {socialLinks[0]?.spotify_url && (
+        <a href={socialLinks[0]?.spotify_url}>
+          <Image src={spotify} style={{ width: 40, height: 40 }} alt="spotify" />
+        </a>
+      )}
+      {socialLinks[0]?.soundcloud_url && (
+        <a href={socialLinks[0]?.soundcloud_url}>
+          <Image src={soundcloud} style={{ width: 50, height: 50 }} alt="soundcloud" />
+        </a>
+      )}
+      {socialLinks[0]?.instagram_url && (
+        <a href={socialLinks[0]?.instagram_url}>
+          <Image src={instagram} style={{ width: 40, height: 40 }} alt="instagram" />
+        </a>
+      )}
+      {socialLinks[0]?.youtube_url && (
+        <a href={socialLinks[0]?.youtube_url}>
+          <Image src={youtube} style={{ width: 50, height: 50 }} alt="youtube" />
+        </a>
+      )}
+      {socialLinks[0]?.facebook_url && (
+        <a href={socialLinks[0]?.facebook_url}>
+          <Image src={facebook} style={{ width: 40, height: 40 }} alt="facebook" />
+        </a>
+      )}
+    </>
+  )}
   </div>
 </div>
 
-      {eventLinksData.length > 0 ?  <div className="button-wrapper flex flex-col gap-3 text-center md:items-center">
-        { eventLinksData.map(button => 
-          <a href={button.link} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" target="_blank">{button.label}
-          </a>
-        )}
-      </div> : ""}
-     
-  
-
-      </div>
-    </>
-  )
+  {eventLinksData && eventLinksData.length > 0 && (
+    <div className="button-wrapper flex flex-col gap-3 text-center md:items-center">
+      {eventLinksData.map((button, index) => (
+        <a key={index} href={button.link} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" target="_blank">
+          {button.label}
+        </a>
+      ))}
+    </div>
+  )}
+</div>
+</>
+)
 }
