@@ -27,7 +27,7 @@ export default async function Create({
       })
       .select();
     console.log(data?.[0].id);
-    redirect(`/event?=${data?.[0].id}`);
+    redirect(`/event?id=${data?.[0].id}`);
   };
 
   return (
