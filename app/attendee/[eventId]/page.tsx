@@ -36,8 +36,11 @@ export default async function Attendee({params: { eventId }}: {params: {eventId:
     const supabase = createClient(cookieStore);
 
     await supabase.from("Emails").upsert({
-      email: formData.get("email")
-    }).eq("email", formData.get("name"));
+      email: formData.get("email"),
+      event_id: eventId
+    });
+
+    updateMetric(eventId, "email_submit_count");
 
     redirect(`/attendee/${event.id}?message=Submitted email!`)
 

@@ -57,7 +57,7 @@ export function AttendeeView({event, userName, socialLinks, eventLinksData, subm
       <div className="flex flex-col gap-4 md:items-center md:justify-center">
         <h2 className="text-xl text-left md:text-center">Sign up to my newsletter!</h2>
         <form action={submitEmail} className="flex flex-row gap-3 md:items-center">
-          <input value={email} onChange={e => setEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline focus:shadow-outline" name="query" type="email" placeholder="youremail@address.com" />
+          <input value={email} onChange={e => setEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline focus:shadow-outline" name="email" type="email" placeholder="youremail@address.com" />
           <button className=" hover:bg-blue-500 hover:text-white border-2 border-blue-500 border-solid text-blue-500 font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12 dark:text-white" type="submit">Submit</button>
         </form>
       </div>
