@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="052433fa-0e5c-4700-94a8-2e3f70c05a5b" name="Changes" comment="">
     <list default="true" id="052433fa-0e5c-4700-94a8-2e3f70c05a5b" name="Changes" comment="updated login and made homepage">
-      <change beforePath="$PROJECT_DIR$/app/event/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/event/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/home/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="ea7dc9a90a554088e68c77661bb39553eff667cc" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -51,7 +52,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "project.propVCSSupport.ChangelistConflict",
-    "ts.external.directory.path": "/Users/tom/dev/hothack-team-2/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/taneya.senn/HotHack/hothack-team-2/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>

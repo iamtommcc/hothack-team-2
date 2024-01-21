@@ -132,7 +132,7 @@ export default async function Home({
                 <label>Total Attendees</label>
                 <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  {analytics.data?.attendance_count}
+                  {analytics.data?.attendance_count || 0}
                 </button>
               </div>
 
@@ -140,15 +140,15 @@ export default async function Home({
                 <label>Link Clicks</label>
                 <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  {analytics.data?.link_click_count}
+                  {analytics.data?.link_click_count || 0}
                 </button>
               </div>
 
               <div>
-                <label>Email submissions</label>
+                <label>Email Submissions</label>
                 <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  {analytics.data?.email_submit_count}
+                  {analytics.data?.email_submit_count || 0}
                 </button>
               </div>
             </div>
