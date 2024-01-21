@@ -1,31 +1,16 @@
-// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { data } from "autoprefixer";
+import { FileUploadInput } from "./file-upload-input";
 
 export default async function Create({
   searchParams,
 }: {
   searchParams: { message: string };
 }) {
-  //   const uploadImage = async (event: any) => {
-  //     "use server";
-  //     const supabase = createClientComponentClient();
-  //     const file = event.target.files[0];
-  //     const bucket = "Image Bucket";
-  //     const { data, error } = await supabase.storage
-  //       .from(bucket)
-  //       .upload(file.name, file);
-  //     // Handle error if upload failed
-  //     if (error) {
-  //       alert("Error uploading file.");
-  //       return;
-  //     }
-
-  //     alert("File uploaded successfully!");
-  //   };
   const readEvent = async (formData: FormData) => {
     "use server";
     const cookieStore = cookies();
@@ -123,16 +108,7 @@ export default async function Create({
           <label className="text-md" htmlFor="password">
             Upload Media
           </label>
-          <input
-            className="py-2 bg-inherit mb-2"
-            type="file"
-            id="myfile"
-            name="myfile"
-            //onChange={uploadImage}
-          ></input>
-          <button className="bg-gray-200 rounded-md px-4 py-2 text-foreground mb-2">
-            Submit
-          </button>
+          <FileUploadInput />
         </form>
       </div>
     </div>
