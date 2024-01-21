@@ -89,7 +89,7 @@ export default async function Home({
         </svg>
         Back Home
       </Link>
-      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
+      <div className="mx-auto mt-24 lg:px-40 sm:px-2 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
         <div className="">
           <div className="pb-8 text-center">
             <h2 className="font-semibold pb-4 text-2xl">Event Details</h2>
