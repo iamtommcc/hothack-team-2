@@ -3,10 +3,15 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 const apiUrl = `https://api.qr-code-generator.com/v1/create?access-token=${process.env.QR_CODE_API_KEY}`;
 
-async function getData() {
+async function getData(searchParams: { id: string }) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const event = events?.data?.[0];
+
   const payload = {
     frame_name: "no-frame",
-    qr_code_text: "https://www.google.com/",
+    qr_code_text: `https://hothack-team-2.vercel.app/attendee/${event.id}`,
     image_format: "SVG",
     qr_code_logo: "scan-me-square",
   };
@@ -36,7 +41,7 @@ export default async function Home({
 }: {
   searchParams: { id: string };
 }) {
-  const data = await getData();
+  const data = await getData(searchParams);
   const qrCodeImageUrl = data.image;
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
