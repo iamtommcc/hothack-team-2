@@ -58,7 +58,7 @@ export function AttendeeView({event, userName, socialLinks, eventLinksData, subm
         <h2 className="text-xl text-left md:text-center">Sign up to my newsletter!</h2>
         <form action={submitEmail} className="flex flex-row gap-3 md:items-center">
           <input value={email} onChange={e => setEmail(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline focus:shadow-outline" name="email" type="email" placeholder="youremail@address.com" />
-          <button className=" hover:bg-blue-500 hover:text-white border-2 border-blue-500 border-solid text-blue-500 font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12 dark:text-white" type="submit">Submit</button>
+          <button className=" hover:bg-brand hover:text-white border-2 border-brand border-solid text-brand font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12 dark:text-white" type="submit">Submit</button>
         </form>
       </div>
 
@@ -100,7 +100,7 @@ export function AttendeeView({event, userName, socialLinks, eventLinksData, subm
       {eventLinksData && eventLinksData.length > 0 && (
         <div className="button-wrapper flex flex-col gap-3 text-center md:items-center">
           {eventLinksData.map((button: any, index: any) => (
-            <a key={index} href={button.link} onClick={onLinkClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" target="_blank">
+            <a key={index} href={button.link} onClick={onLinkClick} className="bg-brand hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-full sm:max-w-full md:w-6/12" target="_blank">
               {button.label}
             </a>
           ))}

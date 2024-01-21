@@ -44,10 +44,10 @@ export default async function Home({
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-3 gap-4 space-y-8">
             <div className="flex flex-col items-center justify-center">
-                <Link href='/create' className="border rounded-md p-4 font-semibold my-6 flex flex-col items-center">Create A New Event</Link>
+                <Link href='/create' className="bg-brand text-white border rounded-md p-4 font-semibold my-6 flex flex-col items-center">Create A New Event</Link>
             </div>
             <hr/>
-            <div>
+            <div className="flex flex-col gap-4">
                 <h2 className="font-semibold p-2">Upcoming Events</h2>
                 <div className="grid grid-cols-5 gap-3">
                     {futureEvents.map((event, i) =>
@@ -62,7 +62,7 @@ export default async function Home({
                     )}
                 </div>
             </div>
-            <div className="">
+            <div className="flex flex-col gap-4">
                 <h2 className="font-semibold pb-2">Past Events</h2>
                 <div className="grid grid-cols-5 gap-3">
                     {pastEvents.map((event, i) =>

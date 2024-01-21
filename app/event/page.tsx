@@ -3,10 +3,15 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 const apiUrl = `https://api.qr-code-generator.com/v1/create?access-token=${process.env.QR_CODE_API_KEY}`;
 
-async function getData() {
+async function getData(searchParams: { id: string }) {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const event = events?.data?.[0];
+
   const payload = {
     frame_name: "no-frame",
-    qr_code_text: "https://www.google.com/",
+    qr_code_text: `https://hothack-team-2.vercel.app/attendee/${event.id}`,
     image_format: "SVG",
     qr_code_logo: "scan-me-square",
   };
@@ -36,12 +41,15 @@ export default async function Home({
 }: {
   searchParams: { id: string };
 }) {
-  const data = await getData();
+  const data = await getData(searchParams);
   const qrCodeImageUrl = data.image;
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const analytics = await supabase.from("Analytics").select().eq("event_id", searchParams.id).limit(1).single();
   const event = events?.data?.[0];
+
+  console.log(analytics);
   const formatDate = (date: Date, time: string) => {
     let eventDate;
 
@@ -81,16 +89,16 @@ export default async function Home({
         </svg>
         Back Home
       </Link>
-      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
+      <div className="mx-auto mt-24 lg:px-40 sm:px-2 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
         <div className="">
           <div className="pb-8 text-center">
             <h2 className="font-semibold pb-4 text-2xl">Event Details</h2>
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
                 <ul>
-                  <li className="font-semibold">{event?.name}</li>
-                  <li className="font-semibold">{event?.venue} in {event?.location}</li>
-                  <li className="font-semibold">{formatDate(new Date(event?.event_date), event?.event_time)}</li>
+                  <li className="font-semibold text-xl">{event?.name}</li>
+                  <li>{event?.venue} in {event?.location}</li>
+                  <li>{formatDate(new Date(event?.event_date), event?.event_time)}</li>
                 </ul>
                 <Link
                     href="/create"
@@ -106,8 +114,8 @@ export default async function Home({
             <div className="max-w-xs">
               <img className="border font-semibold" src={qrCodeImageUrl}></img>
                 <br />
-              <Link href="/" className="font-semibold my-6 items-center">
-                <button className="mt-4 p-2 border rounded-md bg-red-500 text-xs">
+              <Link href={`/attendee/${event.id}`} className="font-semibold my-6 items-center">
+                <button className="mt-4 p-2 text-white rounded-md bg-brand">
                   Preview Attendee View
                 </button>
               </Link>
@@ -118,21 +126,29 @@ export default async function Home({
           <hr />
 
           <div className="pb-8 text-center">
-            <div className="font-semibold p-4">Total Engagement</div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="font-semibold p-4 text-2xl">Total Engagement</div>
+            <div className="grid grid-cols-3 gap-4">
               <div>
                 <label>Total Attendees</label>
-                <br />
+                <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  12312
+                  {analytics.data.attendance_count}
                 </button>
               </div>
 
               <div>
-                <label>Total Engagement</label>
-                <br />
+                <label>Link Clicks</label>
+                <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  2412424
+                  {analytics.data.link_click_count}
+                </button>
+              </div>
+
+              <div>
+                <label>Email submissions</label>
+                <br/>
+                <button className="mt-4 border rounded-md p-4 font-semibold">
+                  {analytics.data.email_submit_count}
                 </button>
               </div>
             </div>
