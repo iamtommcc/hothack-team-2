@@ -40,31 +40,18 @@ export default async function Home({
   const qrCodeImageUrl = data.image;
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
-  // const events = await supabase.from("Events").select();
-
-  const events = {
-    error: null,
-        data: [{
-        id: 1,
-        name: 'An Event Name',
-        event_date: '2024-01-31T19:00:00',
-        location: 'The Valley',
-        entertainer_id: 1,
-        created_at: '2024-01-20T08:11:32+00:00'
-      }]
-  }
-
-  const event = events.data?.filter((event, i) => event.id = Number(searchParams.id));
-  console.log('event', event)
-
-  const formatDate = (date: Date) => {
+  const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const event = events?.data?.[0];
+  const formatDate = (date: Date, time: string) => {
     let eventDate;
-    const year = date?.toString().slice(0,4);
-    const month = date?.toString().slice(5,7);
+
+    const year = date?.toString().slice(11,15);
+    const month = date?.toString().slice(4,7);
     const day = date?.toString().slice(8,10);
-    const time = date?.toString().slice(11,16);
-    eventDate = <div>{time}<br/>
-      {day}/{month}/{year}
+    const timing = time?.slice(0,5);
+    eventDate =
+        <div>
+          {day} {month} {year}, {timing}
     </div>
     return eventDate;
   }
@@ -97,35 +84,33 @@ export default async function Home({
             <h2 className="font-semibold pb-4 text-2xl">Event Details</h2>
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
-                  {event?.map((event, id) =>
-                      <ul key={id}>
-                        <li className="font-semibold">{event.name}</li>
-                        <li className="font-semibold">Venue Name</li>
-                        <li className="font-semibold">{formatDate(new Date(event.event_date))}</li>
-                        <li className="font-semibold">{event.location}</li>
-                      </ul>
-                  )}
-                <button className="text-left mt-4 p-2 border rounded-md bg-red-500 text-xs">
-                  <Link
+                <ul>
+                  <li className="font-semibold">{event?.name}</li>
+                  <li className="font-semibold">{event?.venue} in {event?.location}</li>
+                  <li className="font-semibold">{formatDate(new Date(event?.event_date), event?.event_time)}</li>
+                </ul>
+                <Link
                     href="/create"
-                    className="font-semibold my-6 items-center"
-                  >
+                    className="font-semibold items-center"
+                >
+                  <button className="text-left italic text-xs hover:text-gray-700">
                     Edit
-                  </Link>
-                </button>
-              </div>
+                  </button>
 
-              <div>
-                <img className="p-4 font-semibold" src={qrCodeImageUrl}></img>
+                </Link>
+            </div>
+
+            <div className="max-w-xs">
+              <img className="border font-semibold" src={qrCodeImageUrl}></img>
                 <br />
+              <Link href="/" className="font-semibold my-6 items-center">
                 <button className="mt-4 p-2 border rounded-md bg-red-500 text-xs">
-                  <Link href="/" className="font-semibold my-6 items-center">
-                    Preview Attendee View
-                  </Link>
+                  Preview Attendee View
                 </button>
-              </div>
+              </Link>
             </div>
           </div>
+        </div>
 
           <hr />
 

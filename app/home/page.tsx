@@ -26,13 +26,15 @@ export default async function Home({
         checkDateFutureTrue(event, new Date(events.data?.[i].event_date));
     });
 
-    const formatDate = (date: Date) => {
+    const formatDate = (date: Date, time?: string) => {
         let eventDate;
+
         const year = date?.toString().slice(0,4);
         const month = date?.toString().slice(5,7);
         const day = date?.toString().slice(8,10);
-        const time = date?.toString().slice(11,16);
-        eventDate = <div>{time}<br/>
+        const timing = time?.slice(0,5);
+        eventDate = <div>
+            {timing && (<>{timing}<br/></>)}
             {day}/{month}/{year}
                 </div>
         return eventDate;
@@ -51,8 +53,9 @@ export default async function Home({
                         <button key={id} type="button" className="border rounded-md p-4 font-semibold">
                             <Link href={`/event?id=1`}>
                                 {event.name}<br/>
-                                {event.location}<br/>
-                                {formatDate(event.event_date)}
+                                {event.venue && (<>{event.venue}<br/></>)}
+                                {event.location && (<>{event.location}<br/></>)}
+                                {formatDate(event.event_date, event?.event_time)}
                             </Link>
                         </button>
                     )}
@@ -65,8 +68,9 @@ export default async function Home({
                         <button key={id} className="border rounded-md p-4 font-semibold">
                             <Link href={`/event?${id}`}>
                                 {event.name}<br/>
-                                {event.location}<br/>
-                                {formatDate(event.event_date)}
+                                {event.venue && (<>{event.venue}<br/></>)}
+                                {event.location && (<>{event.location}<br/></>)}
+                                {formatDate(event.event_date, event?.event_time)}
                             </Link>
                         </button>
                     )}
