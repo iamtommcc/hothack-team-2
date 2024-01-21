@@ -98,12 +98,12 @@ export default async function Home({
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
                   {event?.map((event, id) =>
-                    <ul key={id}>
-                      <li className="font-semibold">{event.name}</li>
-                      <li className="font-semibold">Venue Name</li>
-                      <li className="font-semibold">{formatDate(new Date(event.event_date))}</li>
-                      <li className="font-semibold">{event.location}</li>
-                    </ul>
+                      <ul key={id}>
+                        <li className="font-semibold">{event.name}</li>
+                        <li className="font-semibold">Venue Name</li>
+                        <li className="font-semibold">{formatDate(new Date(event.event_date))}</li>
+                        <li className="font-semibold">{event.location}</li>
+                      </ul>
                   )}
                 <button className="text-left mt-4 p-2 border rounded-md bg-red-500 text-xs">
                   <Link
