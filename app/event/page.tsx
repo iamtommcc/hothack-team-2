@@ -1,5 +1,6 @@
 import Link from "next/link";
-
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 const apiUrl = `https://api.qr-code-generator.com/v1/create?access-token=${process.env.QR_CODE_API_KEY}`;
 
 async function getData() {
@@ -33,10 +34,31 @@ async function getData() {
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { message: string };
+  searchParams: { id: string };
 }) {
   const data = await getData();
   const qrCodeImageUrl = data.image;
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const event = events?.data?.[0];
+  const formatDate = (date: Date, time: string) => {
+    let eventDate;
+
+    const year = date?.toString().slice(11,15);
+    const month = date?.toString().slice(4,7);
+    const day = date?.toString().slice(8,10);
+    const timing = time?.slice(0,5);
+    eventDate =
+        <div>
+          {day} {month} {year}, {timing}
+    </div>
+    return eventDate;
+  }
+
+  console.log('events', events)
+
+  // console.log('event', event)
   return (
     <>
       <Link
@@ -59,40 +81,39 @@ export default async function Home({
         </svg>
         Back Home
       </Link>
-      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none grid-cols-2">
+      <div className="mx-auto mt-24 px-40 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none">
         <div className="">
           <div className="pb-8 text-center">
             <h2 className="font-semibold pb-4 text-2xl">Event Details</h2>
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
                 <ul>
-                  <li className="font-semibold">Event Name</li>
-                  <li className="font-semibold">Venue Name</li>
-                  <li className="font-semibold">Date</li>
-                  <li className="font-semibold">Location</li>
+                  <li className="font-semibold">{event?.name}</li>
+                  <li className="font-semibold">{event?.venue} in {event?.location}</li>
+                  <li className="font-semibold">{formatDate(new Date(event?.event_date), event?.event_time)}</li>
                 </ul>
-
-                <button className="text-left mt-4 p-2 border rounded-md bg-red-500 text-xs">
-                  <Link
+                <Link
                     href="/create"
-                    className="font-semibold my-6 items-center"
-                  >
+                    className="font-semibold items-center"
+                >
+                  <button className="text-left italic text-xs hover:text-gray-700">
                     Edit
-                  </Link>
-                </button>
-              </div>
+                  </button>
 
-              <div>
-                <img className="p-4 font-semibold" src={qrCodeImageUrl}></img>
+                </Link>
+            </div>
+
+            <div className="max-w-xs">
+              <img className="border font-semibold" src={qrCodeImageUrl}></img>
                 <br />
+              <Link href="/" className="font-semibold my-6 items-center">
                 <button className="mt-4 p-2 border rounded-md bg-red-500 text-xs">
-                  <Link href="/" className="font-semibold my-6 items-center">
-                    Preview Attendee View
-                  </Link>
+                  Preview Attendee View
                 </button>
-              </div>
+              </Link>
             </div>
           </div>
+        </div>
 
           <hr />
 
