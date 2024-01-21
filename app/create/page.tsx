@@ -1,3 +1,4 @@
+// import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { headers, cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
@@ -9,6 +10,22 @@ export default async function Create({
 }: {
   searchParams: { message: string };
 }) {
+  //   const uploadImage = async (event: any) => {
+  //     "use server";
+  //     const supabase = createClientComponentClient();
+  //     const file = event.target.files[0];
+  //     const bucket = "Image Bucket";
+  //     const { data, error } = await supabase.storage
+  //       .from(bucket)
+  //       .upload(file.name, file);
+  //     // Handle error if upload failed
+  //     if (error) {
+  //       alert("Error uploading file.");
+  //       return;
+  //     }
+
+  //     alert("File uploaded successfully!");
+  //   };
   const readEvent = async (formData: FormData) => {
     "use server";
     const cookieStore = cookies();
@@ -24,10 +41,10 @@ export default async function Create({
         location: formData.get("location"),
       })
       .select();
-    console.log(data);
-    redirect(`/event/${data[0]}`);
-    return;
+    console.log(data[0].id);
+    redirect(`/event?=${data[0].id}`);
   };
+
   return (
     <div className="min-h-screen flex flex-col items-center">
       <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
@@ -111,6 +128,7 @@ export default async function Create({
             type="file"
             id="myfile"
             name="myfile"
+            //onChange={uploadImage}
           ></input>
           <button className="bg-gray-200 rounded-md px-4 py-2 text-foreground mb-2">
             Submit
