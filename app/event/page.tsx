@@ -41,7 +41,10 @@ export default async function Home({
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
   const events = await supabase.from("Events").select().eq("id", searchParams.id)
+  const analytics = await supabase.from("Analytics").select().eq("event_id", searchParams.id).limit(1).single();
   const event = events?.data?.[0];
+
+  console.log(analytics);
   const formatDate = (date: Date, time: string) => {
     let eventDate;
 
@@ -88,9 +91,9 @@ export default async function Home({
             <div className="grid grid-cols-2">
               <div className="text-left pl-10">
                 <ul>
-                  <li className="font-semibold">{event?.name}</li>
-                  <li className="font-semibold">{event?.venue} in {event?.location}</li>
-                  <li className="font-semibold">{formatDate(new Date(event?.event_date), event?.event_time)}</li>
+                  <li className="font-semibold text-xl">{event?.name}</li>
+                  <li>{event?.venue} in {event?.location}</li>
+                  <li>{formatDate(new Date(event?.event_date), event?.event_time)}</li>
                 </ul>
                 <Link
                     href="/create"
@@ -107,7 +110,7 @@ export default async function Home({
               <img className="border font-semibold" src={qrCodeImageUrl}></img>
                 <br />
               <Link href="/" className="font-semibold my-6 items-center">
-                <button className="mt-4 p-2 border rounded-md bg-red-500 text-xs">
+                <button className="mt-4 p-2 text-white rounded-md bg-brand">
                   Preview Attendee View
                 </button>
               </Link>
@@ -118,21 +121,29 @@ export default async function Home({
           <hr />
 
           <div className="pb-8 text-center">
-            <div className="font-semibold p-4">Total Engagement</div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="font-semibold p-4 text-2xl">Total Engagement</div>
+            <div className="grid grid-cols-3 gap-4">
               <div>
                 <label>Total Attendees</label>
-                <br />
+                <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  12312
+                  {analytics.data.attendance_count}
                 </button>
               </div>
 
               <div>
-                <label>Total Engagement</label>
-                <br />
+                <label>Link Clicks</label>
+                <br/>
                 <button className="mt-4 border rounded-md p-4 font-semibold">
-                  2412424
+                  {analytics.data.link_click_count}
+                </button>
+              </div>
+
+              <div>
+                <label>Email submissions</label>
+                <br/>
+                <button className="mt-4 border rounded-md p-4 font-semibold">
+                  {analytics.data.email_submit_count}
                 </button>
               </div>
             </div>
