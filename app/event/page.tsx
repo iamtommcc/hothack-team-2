@@ -109,7 +109,7 @@ export default async function Home({
             <div className="max-w-xs">
               <img className="border font-semibold" src={qrCodeImageUrl}></img>
                 <br />
-              <Link href="/" className="font-semibold my-6 items-center">
+              <Link href={`/attendee/${event.id}`} className="font-semibold my-6 items-center">
                 <button className="mt-4 p-2 text-white rounded-md bg-brand">
                   Preview Attendee View
                 </button>
