@@ -77,11 +77,6 @@ export default async function Home({
                     )}
                 </div>
             </div>
-            <div className="font-semibold">Total Engagement</div>
-            <div className="grid grid-cols-2 gap-4">
-                <button className="border rounded-md p-4 font-semibold">Data</button>
-                <button className="border rounded-md p-4 font-semibold">Data</button>
-            </div>
         </div>
     );
 }
