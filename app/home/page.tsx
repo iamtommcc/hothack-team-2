@@ -40,7 +40,7 @@ export default async function Home({
         return eventDate;
     }
 
-    console.log('home events', events)
+    // console.log('home events', events)
     return (
         <div className="mx-auto max-w-7xl px-6 lg:px-8 py-24 sm:py-3 gap-4 space-y-8">
             <div className="flex flex-col items-center justify-center">
@@ -50,9 +50,9 @@ export default async function Home({
             <div>
                 <h2 className="font-semibold p-2">Upcoming Events</h2>
                 <div className="grid grid-cols-5 gap-3">
-                    {futureEvents.map((event, id) =>
-                        <button key={id} type="button" className="border rounded-md p-4 font-semibold">
-                            <Link href={`/event?id=${id}`}>
+                    {futureEvents.map((event, i) =>
+                        <button key={i} type="button" className="border rounded-md p-4 font-semibold">
+                            <Link href={`/event?id=${event.id}`}>
                                 {event.name}<br/>
                                 {event.venue && (<>{event.venue}<br/></>)}
                                 {event.location && (<>{event.location}<br/></>)}
@@ -65,9 +65,9 @@ export default async function Home({
             <div className="">
                 <h2 className="font-semibold pb-2">Past Events</h2>
                 <div className="grid grid-cols-5 gap-3">
-                    {pastEvents.map((event, id) =>
-                        <button key={id} className="border rounded-md p-4 font-semibold">
-                            <Link href={`/event?${id}`}>
+                    {pastEvents.map((event, i) =>
+                        <button key={i} className="border rounded-md p-4 font-semibold">
+                            <Link href={`/event?id=${event.id}`}>
                                 {event.name}<br/>
                                 {event.venue && (<>{event.venue}<br/></>)}
                                 {event.location && (<>{event.location}<br/></>)}
