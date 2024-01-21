@@ -66,7 +66,7 @@ export default async function Home({
 
   console.log('events', events)
 
-  // console.log('event', event)
+  console.log('event', event)
   return (
     <>
       <Link
