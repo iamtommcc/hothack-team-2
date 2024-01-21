@@ -41,8 +41,8 @@ export default async function Create({
         location: formData.get("location"),
       })
       .select();
-    console.log(data[0].id);
-    redirect(`/event?=${data[0].id}`);
+    console.log(data?.[0].id);
+    redirect(`/event?=${data?.[0].id}`);
   };
 
   return (
