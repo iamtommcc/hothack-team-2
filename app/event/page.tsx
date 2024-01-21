@@ -56,6 +56,9 @@ export default async function Home({
     return eventDate;
   }
 
+  console.log('events', events)
+
+  // console.log('event', event)
   return (
     <>
       <Link
