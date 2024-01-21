@@ -18,10 +18,14 @@ export default async function Create({
       .from("Events")
       .insert({
         name: formData.get("name"),
+        venue: formData.get("venue_name"),
+        event_date: formData.get("eventDate"),
+        event_time: formData.get("eventTime"),
+        location: formData.get("location"),
       })
       .select();
-
-    redirect(`/event/${data[0].id}`);
+    console.log(data);
+    redirect(`/event/${data[0]}`);
     return;
   };
   return (
@@ -69,7 +73,7 @@ export default async function Create({
           </label>
           <input
             className="rounded-md px-4 py-2 bg-inherit border mb-2"
-            type="text"
+            name="venue_name"
             placeholder=""
           />
           <label className="text-md" htmlFor="email">
@@ -77,7 +81,17 @@ export default async function Create({
           </label>
           <input
             className="rounded-md px-4 py-2 bg-inherit border mb-2"
+            name="eventDate"
             type="date"
+            placeholder=""
+          />
+          <label className="text-md" htmlFor="email">
+            Event Time
+          </label>
+          <input
+            className="rounded-md px-4 py-2 bg-inherit border mb-2"
+            name="eventTime"
+            type="time"
             placeholder=""
           />
           <label className="text-md" htmlFor="password">
@@ -85,6 +99,7 @@ export default async function Create({
           </label>
           <input
             className="rounded-md px-4 py-2 bg-inherit border mb-2"
+            name="location"
             type="text"
             placeholder=""
           />
