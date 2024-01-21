@@ -1,35 +1,33 @@
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-// import './attendee-page.css'
 import Image from 'next/image'
-import artistPhoto from './images/pexels-photo-167636.jpeg'
-import instagram from './images/instagram.png'
-import youtube from './images/youtube.png'
-import facebook from './images/facebook.png'
-import spotify from './images/spotify.png'
-import soundcloud from './images/soundcloud.png'
-import { json } from "stream/consumers";
+import artistPhoto from '../images/pexels-photo-167636.jpeg'
+import instagram from '../images/instagram.png'
+import youtube from '../images/youtube.png'
+import facebook from '../images/facebook.png'
+import spotify from '../images/spotify.png'
+import soundcloud from '../images/soundcloud.png'
 
-export default async function Login() {
 
-  const urlId = 1;
+export default async function Attendee({params: { eventId }}: {params: {eventId: string}}) {
  
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
 
-const event = await supabase
+const event = (await supabase
 .from('Events')
 .select()
+.eq('id', eventId)).data?.[0];
 
-const userId = event.data?.find(event => event.id === urlId).entertainer_id
+const userId = event.entertainer_id;
 
   const [eventLinks, socials] = await Promise.all([
     supabase
   .from('EventsLinks')
   .select()
-  .eq('event_id', urlId),
+  .eq('event_id', eventId),
   supabase
   .from('Socials')
   .select('*, Users!inner(*)')
@@ -38,13 +36,10 @@ const userId = event.data?.find(event => event.id === urlId).entertainer_id
 
 
 
-const eventLinksData = eventLinks.data?.filter(event => event.event_id === urlId)
-const eventData = event.data?.filter(event => event.id === urlId)
 
-const socialLinks = socials.data?.filter(socials => socials.user_id === urlId)
-const userName = socials.data?.find(social => social.Users.id === urlId).Users.username;
-
-console.log(socialLinks) 
+const eventLinksData = eventLinks.data
+const socialLinks = socials.data?.[0];
+const userName = socials.data?.[0].Users.username;
 
 return (
 
@@ -63,10 +58,10 @@ return (
 
       <div className="flex flex-col gap-2 justify-start md:items-center">
         <h2 className="text-4xl font-bold">{userName}</h2>
-        {eventData && eventData.length > 0 && (
+        {event > 0 && (
         <>
-          <h2 className="text-3xl font-bold">{eventData[0].name}</h2>
-          <h2 className="text-2xl font-bold">{eventData[0].location}</h2>
+          <h2 className="text-3xl font-bold">{event.name}</h2>
+          <h2 className="text-2xl font-bold">{event.location}</h2>
         </>
       )}
       </div>
@@ -82,35 +77,35 @@ return (
       <div className="flex flex-col gap-2 justify-start md:items-center">
   <h2 className="text-2xl font-bold">Socials</h2>
   <div className="flex flex-row flex-wrap gap-2 justify-start items-center">
-  {socialLinks && socialLinks.length > 0 && (
+  {socialLinks ? (
     <>
-      {socialLinks[0]?.spotify_url && (
-        <a href={socialLinks[0]?.spotify_url}>
+      {socialLinks.spotify_url ? (
+        <a href={socialLinks.spotify_url}>
           <Image src={spotify} style={{ width: 40, height: 40 }} alt="spotify" />
         </a>
-      )}
-      {socialLinks[0]?.soundcloud_url && (
-        <a href={socialLinks[0]?.soundcloud_url}>
+      ): null }
+      {socialLinks.soundcloud_url ? (
+        <a href={socialLinks.soundcloud_url}>
           <Image src={soundcloud} style={{ width: 50, height: 50 }} alt="soundcloud" />
         </a>
-      )}
-      {socialLinks[0]?.instagram_url && (
-        <a href={socialLinks[0]?.instagram_url}>
+      ): null }
+      {socialLinks.instagram_url ? (
+        <a href={socialLinks.instagram_url}>
           <Image src={instagram} style={{ width: 40, height: 40 }} alt="instagram" />
         </a>
-      )}
-      {socialLinks[0]?.youtube_url && (
-        <a href={socialLinks[0]?.youtube_url}>
+      ): null }
+      {socialLinks.youtube_url ? (
+        <a href={socialLinks.youtube_url}>
           <Image src={youtube} style={{ width: 50, height: 50 }} alt="youtube" />
         </a>
-      )}
-      {socialLinks[0]?.facebook_url && (
-        <a href={socialLinks[0]?.facebook_url}>
+      ): null }
+      {socialLinks.facebook_url ? (
+        <a href={socialLinks.facebook_url}>
           <Image src={facebook} style={{ width: 40, height: 40 }} alt="facebook" />
         </a>
-      )}
+      ): null }
     </>
-  )}
+  ) : null}
   </div>
 </div>
 
